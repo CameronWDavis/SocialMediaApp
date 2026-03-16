@@ -1,10 +1,9 @@
-using System;
 using Domain;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace API.Controllers;
-
+namespace API.Controllers;  
 public class ActivitiesController(AppDbContext context) : BaseApiController
 {
     [HttpGet]
@@ -17,9 +16,7 @@ public class ActivitiesController(AppDbContext context) : BaseApiController
     public async Task<ActionResult<Activity>> GetActivityDetail(string id)
     {
         var activity = await context.Activities.FindAsync(id);
-
-        if (activity == null ) return NotFound();
-
-        return activity
+        if (activity == null) return NotFound();
+        return activity; // ✅ Fix 4: missing semicolon
     }
 }
