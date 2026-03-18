@@ -1,0 +1,25 @@
+using System;
+using Domain;
+using MediatR;
+using Persistence;
+
+
+namespace Application.Activities.Commands; 
+
+public class EditActivity
+{
+    public class Command : IRequest
+    {
+        public required Activity Activity { get; set;}
+    }
+
+    public class Handler(AppDbContext context ) :IRequestHandler<Command>
+    {
+        public async Task Handl(Command request, CancellationToken cancellationToken)
+        {
+            var activity = await context.Activities.FindAsync([request.Activity.Id], cancellationToken);
+
+            if (activity == null ) throw new Exception("Cannot find activity");
+        }
+    }
+}
